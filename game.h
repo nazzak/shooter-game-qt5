@@ -31,6 +31,8 @@ private:
     Player * m_player;
     QTimer * m_enemyTimer;
 
+    QMediaPlayer * m_destroyedEnemy;
+
 
 
 

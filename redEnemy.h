@@ -10,7 +10,7 @@ class RedEnemy : public Enemy
 public :
     RedEnemy(QGraphicsItem * parent=0);
     ~RedEnemy() override;
-    void setSpeed(const int &) override;
+    void setSpeed(const int & = 6) override;
 
 
 private:

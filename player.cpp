@@ -11,7 +11,8 @@ Player *Player::s_instance = 0;
 Player::Player() :
     m_soundFire{nullptr}
 {
-    setRect(0,0,100,100); //position 0,0  size 100,100px
+    setPixmap(QPixmap(":/image/Rambo.png"));
+    setPixmap(pixmap().scaled(QSize(60,100)));
 
     m_soundFire = new QMediaPlayer;
     m_soundFire->setMedia(QUrl("qrc:/sound/fire.mp3"));
@@ -78,7 +79,7 @@ void Player::keyPressEvent(QKeyEvent *event)
             ma_fleche->setPos(x()+45,y());
             scene()->addItem(ma_fleche);
 
-            //jouer le son de tire
+            //play sound
             if(m_soundFire->state() == QMediaPlayer::PlayingState)
             {
                 m_soundFire->setPosition(0);

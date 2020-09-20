@@ -17,11 +17,10 @@ RedEnemy::RedEnemy(QGraphicsItem *parent):
     Enemy(),
     m_timerEnemy{new QTimer}
 {
-    //random position
 
     setPixmap(QPixmap(":/image/48.png"));
-    setPixmap(pixmap().scaled(QSize(100,100)));
-    m_speed = 5;
+    setPixmap(pixmap().scaled(QSize(50,50)));
+    setSpeed();
 
 
     int random_number = rand() % (static_cast<int>(game->scene()->width()-pixmap().width()));
@@ -70,6 +69,7 @@ void RedEnemy::move()
     setPos(x(), y()+m_speed);
     if(pos().y() > scene()->height())
     {
+        emit notifyCollision();
         scene()->removeItem(this);
         delete this;
         qDebug() << "out of screen, enemy removed";
