@@ -62,7 +62,7 @@ void Enemy::move()
             m_timerEnemy = nullptr;
             scene()->removeItem(this);
             delete this;
-            return;     //stop moving avef delete this
+            return;     //stop moving after delete this
         }
     }
 

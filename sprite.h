@@ -6,7 +6,6 @@
 #include <QTimer>
 #include <QPixmap>
 #include <QPainter>
-#include <QUrl>
 
 class Sprite : public QObject, public QGraphicsItem
 {
