@@ -11,7 +11,9 @@
 Game::Game() :
     m_scene{nullptr},
     m_quit{nullptr},
-    m_music{nullptr}
+    m_music{nullptr},
+    m_player{nullptr}
+
 {
     // Building the scene
     m_scene = new QGraphicsScene();
@@ -29,6 +31,23 @@ Game::Game() :
 
     QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
 
+    //Build the player
+    m_player = new Player;
+    m_player->setRect(0,0,100,100); //position 0,0  size 100,100px
+    //add it to  the scene
+    m_scene->addItem(m_player);
+    // put the focus on the player (link the keyboard to it)
+    m_player->setFlag(QGraphicsItem::ItemIsFocusable);
+    m_player->setFocus();
+
+    //disable scroll bar
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+
+    setFixedSize(1000,1000); // set size window
+    m_scene->setSceneRect(0,0,800,1000); // set the scene on the screen
+    m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
 
 
 }
@@ -51,6 +70,13 @@ Game::~Game()
     }
 
     //3
+    if(m_player)
+    {
+        delete m_player;
+        m_player = nullptr;
+    }
+
+    //4
     if(m_scene)
     {
         delete m_scene;
