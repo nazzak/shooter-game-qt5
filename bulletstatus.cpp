@@ -4,9 +4,15 @@
 
 extern Game * game;
 
-BulletStatus::BulletStatus()
+BulletStatus::BulletStatus() :
+    BulletStatus(20)
 {
-    m_remaining = 20;
+
+}
+
+BulletStatus::BulletStatus(const int &nb)
+{
+    m_remaining = nb;
 
     setPlainText("Balles : " + QString::number(m_remaining));
     setPos(x(),y()+40);
@@ -14,7 +20,12 @@ BulletStatus::BulletStatus()
     setFont(QFont("times",16));
 }
 
-int BulletStatus::getValue()
+void BulletStatus::setNbBullets(const int & _nb)
+{
+    m_remaining = _nb;
+}
+
+int BulletStatus::getRemainBullets()
 {
     return m_remaining;
 }
@@ -32,11 +43,15 @@ void BulletStatus::decrease(const int &quantite)
     {
         setPlainText("Bullets : RELOAD");
     }
+    else if (m_remaining < 0)
+    {
+        setPlainText("WTF");
+    }
 
 }
 
 void BulletStatus::reload()
 {
-    m_remaining = 20;
+    setNbBullets(20);
     setPlainText("Bullets : " + QString::number(m_remaining));
 }

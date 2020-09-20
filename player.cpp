@@ -11,6 +11,8 @@ extern Game * game;
 Player::Player() :
     m_soundFire{nullptr}
 {
+    setRect(0,0,100,100); //position 0,0  size 100,100px
+
     m_soundFire = new QMediaPlayer;
     m_soundFire->setMedia(QUrl("qrc:/sound/fire.mp3"));
 }
@@ -47,49 +49,48 @@ void Player::keyPressEvent(QKeyEvent *event)
 
     else if(event->key() == Qt::Key_Up)
     {
-        if(pos().y() > 0) //empecher le rectangle de sortir de la scene
+        if(pos().y() > 0) //keep the player in the scene
         {
-        setPos(x(),y()-50);
-        qDebug() << "move up";
+            setPos(x(),y()-50);
+            qDebug() << "move up";
         }
     }
 
     else if(event->key() == Qt::Key_Down)
     {
-        if(pos().y()+100 < scene()->height()) //empecher le rectangle de sortir de la scene
+        if(pos().y()+100 < scene()->height()) //keep the player in the scene
         {
-        setPos(x(),y()+50);
-        qDebug() << "move down";
+            setPos(x(),y()+50);
+            qDebug() << "move down";
         }
     }
 
     else if(event->key() == Qt::Key_Space)
     {
 
-        if(game->m_bulletStatus->getValue() > 0)
+        if(game->m_bulletStatus->getRemainBullets() > 0)
         {
             qDebug() << "Fire";
             game->m_bulletStatus->decrease(1);
 
-        //create bullet
-        Bullet * ma_fleche = new Bullet;
-        ma_fleche->setPos(x()+45,y());
-        scene()->addItem(ma_fleche);
+            //create bullet
+            Bullet * ma_fleche = new Bullet;
+            ma_fleche->setPos(x()+45,y());
+            scene()->addItem(ma_fleche);
 
-        //jouer le son de tire
-        if(m_soundFire->state() == QMediaPlayer::PlayingState)
-        {
-            m_soundFire->setPosition(0);
-        }
-        else
-        m_soundFire->play();
+            //jouer le son de tire
+            if(m_soundFire->state() == QMediaPlayer::PlayingState)
+            {
+                m_soundFire->setPosition(0);
+            }
+            else
+                m_soundFire->play();
 
-        //qDebug() << "detection : espace";
+            //qDebug() << "detection : espace bar";
         }
         else {
             qDebug() << "Reload...";
         }
-
     }
 
     else if(event->key() == Qt::Key_R)
@@ -100,31 +101,30 @@ void Player::keyPressEvent(QKeyEvent *event)
 
     else if(event->key() == Qt::Key_Alt)
     {
-        if(game->m_bulletStatus->getValue() >= 3)
+        if(game->m_bulletStatus->getRemainBullets() >= 3)
         {
             game->m_bulletStatus->decrease(3);
-        //creation de nouvelles fleches
-        Bullet * f1 = new Bullet;
-        Bullet * f2 = new Bullet;
-        Bullet * f3 = new Bullet;
-        f1->setPos(x()+45,y());
-        f2->setPos(x()+45,y());
-        f3->setPos(x()+45,y());
-        f2->setDirection(5);
-        f3->setDirection(-5);
-        scene()->addItem(f1);
-        scene()->addItem(f2);
-        scene()->addItem(f3);
+            //creation de nouvelles fleches
+            Bullet * f1 = new Bullet;
+            Bullet * f2 = new Bullet;
+            Bullet * f3 = new Bullet;
+            f1->setPos(x()+45,y());
+            f2->setPos(x()+45,y());
+            f3->setPos(x()+45,y());
+            f2->setDirection(5);
+            f3->setDirection(-5);
+            scene()->addItem(f1);
+            scene()->addItem(f2);
+            scene()->addItem(f3);
 
-        //jouer le son de tire
-        if(m_soundFire->state() == QMediaPlayer::PlayingState)
-        {
-            m_soundFire->setPosition(0);
-        }
-        else
-        m_soundFire->play();
+            //jouer le son de tire
+            if(m_soundFire->state() == QMediaPlayer::PlayingState)
+            {
+                m_soundFire->setPosition(0);
+            }
+            else
+                m_soundFire->play();
 
-        //qDebug() << "detection : espace";
         }
     }
 }

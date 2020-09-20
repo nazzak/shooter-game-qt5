@@ -6,8 +6,10 @@
 class BulletStatus: public QGraphicsTextItem{
 public:
     BulletStatus();
+    BulletStatus(const int &);
     void decrease(const int &);
-    int getValue();
+    int getRemainBullets();
+    void setNbBullets(const int &);
     void reload();
 
 private:

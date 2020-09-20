@@ -20,34 +20,29 @@ Game::Game() :
     m_scene = new QGraphicsScene();
     setScene(m_scene);
 
+    setFixedSize(1000,1000); // set size window
+    m_scene->setSceneRect(0,0,1000,1000); // set the scene on the screen
+    //disable scroll bar
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     // Create exit button thet lives with the scene
     m_quit = new QPushButton("Quit");
-    m_quit->setGeometry(m_scene->width()-100,0,100,50);
+    m_quit->setGeometry(100,0,100,50);
     m_quit->setStyleSheet("QPushButton { background-color: yellow; }");
     m_scene->addWidget(m_quit);
-
-    m_music = new QMediaPlayer;
-    m_music->setMedia(QUrl("qrc:/music/bg.mp3"));
-    m_music->play();
 
     QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
 
     //Build the player
     m_player = new Player;
-    m_player->setRect(0,0,100,100); //position 0,0  size 100,100px
     //add it to  the scene
     m_scene->addItem(m_player);
     // put the focus on the player (link the keyboard to it)
     m_player->setFlag(QGraphicsItem::ItemIsFocusable);
     m_player->setFocus();
 
-    //disable scroll bar
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-
-    setFixedSize(1000,1000); // set size window
-    m_scene->setSceneRect(0,0,1000,1000); // set the scene on the screen
     m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
 
     // Build an enemy every 1.1 second
@@ -63,8 +58,12 @@ Game::Game() :
     m_bulletStatus = new BulletStatus;
     m_scene->addItem(m_bulletStatus);
 
-    m_health = new Health(8);
+    m_health = new Health;
     m_scene->addItem(m_health);
+
+    m_music = new QMediaPlayer;
+    m_music->setMedia(QUrl("qrc:/music/bg.mp3"));
+    m_music->play();
 
 }
 

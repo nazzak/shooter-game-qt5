@@ -11,6 +11,7 @@ public:
 
 private:
     int m_score;
+    QString m_scoreText;
 };
 
 #endif // SCORE_H
