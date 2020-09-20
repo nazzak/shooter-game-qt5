@@ -11,12 +11,14 @@ CONFIG += c++11
 SOURCES += \
     enemy.cpp \
     game.cpp \
+    health.cpp \
     main.cpp \
     player.cpp
 
 HEADERS += \
     enemy.h \
     game.h \
+    health.h \
     player.h
 
 # Default rules for deployment.

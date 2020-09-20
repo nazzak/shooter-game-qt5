@@ -13,7 +13,8 @@ Game::Game() :
     m_quit{nullptr},
     m_music{nullptr},
     m_player{nullptr},
-    m_enemyTimer{nullptr}
+    m_enemyTimer{nullptr},
+    m_health{nullptr}
 
 {
     // Building the scene
