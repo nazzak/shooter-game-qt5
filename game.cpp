@@ -70,6 +70,13 @@ Game::~Game()
     }
 
     //3
+    if(m_player)
+    {
+        delete m_player;
+        m_player = nullptr;
+    }
+
+    //4
     if(m_scene)
     {
         delete m_scene;
