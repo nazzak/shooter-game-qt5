@@ -35,7 +35,7 @@ Game::Game() :
     QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
 
     //Build the player
-    m_player = new Player;
+    m_player = Player::instance();
     //add it to  the scene
     m_scene->addItem(m_player);
     // put the focus on the player (link the keyboard to it)
@@ -87,8 +87,7 @@ Game::~Game()
     //3
     if(m_player)
     {
-        delete m_player;
-        m_player = nullptr;
+        m_player->deleteLater();
     }
 
     //4
@@ -102,8 +101,6 @@ Game::~Game()
 void Game::stop()
 {
     m_scene->removeItem(m_player);
-    delete m_player;
-
-    m_player = nullptr;
+    m_player->deleteLater();
 
 }

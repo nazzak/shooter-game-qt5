@@ -7,6 +7,7 @@
 #include "game.h"
 
 extern Game * game;
+Player *Player::s_instance = 0;
 
 Player::Player() :
     m_soundFire{nullptr}
