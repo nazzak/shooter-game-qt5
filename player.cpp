@@ -5,6 +5,7 @@
 #include "bullet.h"
 #include "game.h"
 #include "redEnemy.h"
+#include <QVector>
 
 extern Game * game;
 Player *Player::s_instance = 0;
@@ -15,11 +16,17 @@ Player::Player() :
     setPixmap(QPixmap(":/image/Rambo.png"));
     setPixmap(pixmap().scaled(QSize(60,100)));
 
+    m_soundShotgun = new QMediaPlayer;
+    m_soundShotgun->setMedia(QUrl("qrc:/sound/shotgun.mp3"));
+
     m_soundFire = new QMediaPlayer;
     m_soundFire->setMedia(QUrl("qrc:/sound/fire.mp3"));
 
     m_destroyedEnemy =  new QMediaPlayer();
     m_destroyedEnemy->setMedia(QUrl("qrc:/sound/1023.mp3"));
+
+    m_gunReload =  new QMediaPlayer();
+    m_gunReload->setMedia(QUrl("qrc:/sound/GunReload.m4a"));
 }
 
 Player::~Player()
@@ -70,7 +77,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    else if(event->key() == Qt::Key_Space)
+    else if(event->key() == Qt::Key_W)
     {
 
         if(game->m_bulletStatus->getRemainBullets() > 0)
@@ -80,6 +87,8 @@ void Player::keyPressEvent(QKeyEvent *event)
 
             //create bullet
             Bullet * bullet = new Bullet;
+
+            // Play explosion effect
             connect(bullet, &Bullet::notifyCollision, this, [this](){
                 if(m_destroyedEnemy->state() == QMediaPlayer::PlayingState)
                 {
@@ -91,7 +100,7 @@ void Player::keyPressEvent(QKeyEvent *event)
             bullet->setPos(x()+45,y());
             scene()->addItem(bullet);
 
-            //play sound
+            //play sound : Fire
             if(m_soundFire->state() == QMediaPlayer::PlayingState)
             {
                 m_soundFire->setPosition(0);
@@ -110,27 +119,66 @@ void Player::keyPressEvent(QKeyEvent *event)
     {
         qDebug() << "Reload";
         game->m_bulletStatus->reload();
+        //play sound : gun reload
+        if(m_gunReload->state() == QMediaPlayer::PlayingState)
+        {
+            m_gunReload->setPosition(0);
+        }
+        else
+            m_gunReload->play();
     }
 
-    else if(event->key() == Qt::Key_Alt)
+    else if(event->key() == Qt::Key_Space)
+    {
+        if(game->m_bulletStatus->getRemainBullets() >= 9)
+        {
+            game->m_bulletStatus->decrease(9);
+
+            QVector<Bullet *> vec(9, nullptr);
+            for(auto &t: vec)
+            {
+                t = new Bullet;
+            }
+
+            for(int position = -80, i = 0; i < vec.size(); ++i)
+            {
+                vec.at(i)->setPos(x()+45+position ,y());
+                position += 20;
+                scene()->addItem(vec.at(i));
+            }
+
+            //play fire sound
+            if(m_soundShotgun->state() == QMediaPlayer::PlayingState)
+            {
+                m_soundShotgun->setPosition(0);
+            }
+            else
+                m_soundShotgun->play();
+
+        }
+    }
+
+    else if(event->key() == Qt::Key_E)
     {
         if(game->m_bulletStatus->getRemainBullets() >= 3)
         {
             game->m_bulletStatus->decrease(3);
-            //creation de nouvelles fleches
-            Bullet * f1 = new Bullet;
-            Bullet * f2 = new Bullet;
-            Bullet * f3 = new Bullet;
-            f1->setPos(x()+45,y());
-            f2->setPos(x()+45,y());
-            f3->setPos(x()+45,y());
-            f2->setDirection(5);
-            f3->setDirection(-5);
-            scene()->addItem(f1);
-            scene()->addItem(f2);
-            scene()->addItem(f3);
 
-            //jouer le son de tire
+            QVector<Bullet *> vec(3, nullptr);
+            for(auto &t: vec)
+            {
+                t = new Bullet;
+            }
+
+            for(int direction = -5, i = 0; i < vec.size(); ++i)
+            {
+                vec.at(i)->setPos(x()+45+direction ,y());
+                vec.at(i)->setDirection(direction);
+                direction += 5;
+                scene()->addItem(vec.at(i));
+            }
+
+            //play fire sound
             if(m_soundFire->state() == QMediaPlayer::PlayingState)
             {
                 m_soundFire->setPosition(0);
