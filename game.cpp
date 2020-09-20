@@ -23,6 +23,10 @@ Game::Game() :
     m_quit->setStyleSheet("QPushButton { background-color: yellow; }");
     m_scene->addWidget(m_quit);
 
+    m_music = new QMediaPlayer;
+    m_music->setMedia(QUrl("qrc:/music/bg.mp3"));
+    m_music->play();
+
     QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
 
 
@@ -32,17 +36,20 @@ Game::Game() :
 Game::~Game()
 {
     //1
+    if(m_music)
+    {
+        m_music->stop();
+        delete m_music;
+        m_music = nullptr;
+    }
+
+    //2
     if(m_quit)
     {
         delete m_quit;
         m_quit = nullptr;
     }
-    //2
-    if(m_music)
-    {
-        delete m_music;
-        m_music = nullptr;
-    }
+
     //3
     if(m_scene)
     {
