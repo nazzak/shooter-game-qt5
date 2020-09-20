@@ -4,5 +4,6 @@
     </qresource>
     <qresource prefix="/image">
         <file>48.png</file>
+        <file>qpixmap_sprite.png</file>
     </qresource>
 </RCC>
