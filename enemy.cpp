@@ -8,6 +8,7 @@
 #include "game.h"
 #include <QTime>
 #include <typeinfo>
+#include "sprite.h"
 
 extern Game * game;
 
@@ -53,12 +54,15 @@ void Enemy::move()
         if (typeid(*obj_collision[i]) == typeid(Player)) //check if type Player
         {
             qDebug() << "Alert";
+            Sprite * sp = new Sprite(x(),y());
+            scene()->addItem(sp);
+
             m_timerEnemy->stop();
             delete m_timerEnemy;
             m_timerEnemy = nullptr;
             scene()->removeItem(this);
             delete this;
-            return;     //stop moving avef delete this
+            return;     //stop moving after delete this
         }
     }
 
