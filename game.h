@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QMediaPlayer>
 #include "player.h"
+#include "health.h"
 
 class Game: public QGraphicsView
 {
@@ -23,6 +24,9 @@ private:
     QMediaPlayer * m_music;
 
     Player * m_player;
+    QTimer * m_enemyTimer;
+
+    Health * m_health;
 
 
 };

@@ -9,12 +9,16 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    enemy.cpp \
     game.cpp \
+    health.cpp \
     main.cpp \
     player.cpp
 
 HEADERS += \
+    enemy.h \
     game.h \
+    health.h \
     player.h
 
 # Default rules for deployment.
