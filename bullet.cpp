@@ -32,6 +32,7 @@ void Bullet::direction() {
         if (typeid(*obj_collision[i]) == typeid(Enemy))
         {
             qDebug() << "Enemy hit";
+            game->m_score->increase();
 
             Sprite *sp = new Sprite(obj_collision[i]->pos().x(),obj_collision[i]->pos().y());
             scene()->addItem(sp);
@@ -60,10 +61,10 @@ void Bullet::setDirection(const int &direction)
 
 Bullet::~Bullet()
 {
-    if(m_timer)
-    {
-        m_timer->stop();
-        delete m_timer;
-        m_timer = nullptr;
-    }
+//    if(m_timer)
+//    {
+//        m_timer->stop();
+//        delete m_timer;
+//        m_timer = nullptr;
+//    }
 }

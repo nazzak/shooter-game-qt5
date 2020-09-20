@@ -5,7 +5,6 @@
 
 #include <QApplication>
 
-//#define IOS
 
 
 Game::Game() :
@@ -13,8 +12,8 @@ Game::Game() :
     m_quit{nullptr},
     m_music{nullptr},
     m_player{nullptr},
-    m_enemyTimer{nullptr},
-    m_health{nullptr}
+    m_health{nullptr},
+    m_enemyTimer{nullptr}
 
 {
     // Building the scene
@@ -48,13 +47,21 @@ Game::Game() :
 
 
     setFixedSize(1000,1000); // set size window
-    m_scene->setSceneRect(0,0,800,1000); // set the scene on the screen
+    m_scene->setSceneRect(0,0,1000,1000); // set the scene on the screen
     m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
 
-    // Build an enemy every second
+    // Build an enemy every 1.1 second
     m_enemyTimer = new QTimer;
     QObject::connect(m_enemyTimer, &QTimer::timeout,m_player,&Player::buildEnemy);
-    m_enemyTimer->start(1000);
+    m_enemyTimer->start(1100);
+
+    //creer le score
+    m_score = new Score;
+    m_scene->addItem(m_score);
+
+    //creer la quantité de fleches
+    m_bulletStatus = new BulletStatus;
+    m_scene->addItem(m_bulletStatus);
 
 }
 
@@ -92,5 +99,9 @@ Game::~Game()
 
 void Game::stop()
 {
+    m_scene->removeItem(m_player);
+    delete m_player;
+
+    m_player = nullptr;
 
 }

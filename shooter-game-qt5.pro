@@ -10,19 +10,23 @@ CONFIG += c++11
 
 SOURCES += \
     bullet.cpp \
+    bulletstatus.cpp \
     enemy.cpp \
     game.cpp \
     health.cpp \
     main.cpp \
     player.cpp \
+    score.cpp \
     sprite.cpp
 
 HEADERS += \
     bullet.h \
+    bulletstatus.h \
     enemy.h \
     game.h \
     health.h \
     player.h \
+    score.h \
     sprite.h
 
 # Default rules for deployment.

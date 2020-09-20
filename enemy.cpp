@@ -54,6 +54,8 @@ void Enemy::move()
         if (typeid(*obj_collision[i]) == typeid(Player)) //check if type Player
         {
             qDebug() << "Alert";
+            game->m_health->decrease();
+
             Sprite * sp = new Sprite(x(),y());
             scene()->addItem(sp);
 

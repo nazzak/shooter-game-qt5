@@ -10,6 +10,8 @@
 #include <QMediaPlayer>
 #include "player.h"
 #include "health.h"
+#include "bulletstatus.h"
+#include "score.h"
 
 class Game: public QGraphicsView
 {
@@ -17,6 +19,9 @@ public:
     Game();
     ~Game();
     void stop();
+    BulletStatus * m_bulletStatus;
+    Score * m_score;
+    Health * m_health;
 
 private:
     QGraphicsScene * m_scene;
@@ -26,7 +31,9 @@ private:
     Player * m_player;
     QTimer * m_enemyTimer;
 
-    Health * m_health;
+
+
+
 
 
 };
