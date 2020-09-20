@@ -10,12 +10,19 @@ class Player : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    explicit Player();
-    ~Player();
 
+    static Player *instance()
+    {
+        if (!s_instance)
+          s_instance = new Player;
+        return s_instance;
+    }
     void keyPressEvent(QKeyEvent *event);
 
 private:
+    static Player *s_instance;
+    Player();
+    ~Player();
     QMediaPlayer * m_soundFire;
 
 signals:
