@@ -23,6 +23,8 @@ public:
     Score * m_score;
     Health * m_health;
 
+    QGraphicsScene * getScene() {return m_scene;}
+
 private:
     QGraphicsScene * m_scene;
     QPushButton *m_quit;

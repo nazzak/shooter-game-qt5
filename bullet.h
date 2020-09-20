@@ -16,10 +16,12 @@ public:
     ~Bullet();
 
 public slots:
-    void direction();
+    void move();
+
+signals:
+    void notifyCollision();
 
 private :
-
     int m_direct;
 };
 

@@ -8,6 +8,7 @@
         <file>qpixmap_sprite.png</file>
         <file>Rambo.png</file>
         <file>military_background.png</file>
+        <file>logo512.png</file>
     </qresource>
     <qresource prefix="/sound">
         <file>fire.mp3</file>

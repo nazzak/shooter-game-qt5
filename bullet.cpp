@@ -2,10 +2,12 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QList>
-#include "redEnemy.h"
+#include "Enemy.h"
 #include "game.h"
 #include "sprite.h"
 #include <typeinfo>
+#include "redEnemy.h"
+#include "greenenemy.h"
 
 extern Game * game;
 
@@ -13,26 +15,28 @@ Bullet::Bullet(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent)
 {
 
     setRect(0,0,5,5);
+    setBrush(Qt::white);
     m_direct = 0;
 
     //connect timer to move bullet
     QTimer *timer = new QTimer(this);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(direction()));
+    QObject::connect(timer, &QTimer::timeout, this, &Bullet::move);
 
-    timer->start(100);
+    timer->start(50);
 }
 
 
-void Bullet::direction() {
+void Bullet::move() {
     //check collision with enemy
     QList<QGraphicsItem *> obj_collision = collidingItems();
     for (int i= 0, n= obj_collision.size(); i<n; ++i)
-            {
+    {
 
-        if (typeid(*obj_collision[i]) == typeid(Enemy))
+        if (typeid(*obj_collision[i]) == typeid(RedEnemy) || typeid(*obj_collision[i]) == typeid(GreenEnemy))
         {
             qDebug() << "Enemy hit";
             game->m_score->increase();
+            emit notifyCollision();
 
             Sprite *sp = new Sprite(obj_collision[i]->pos().x(),obj_collision[i]->pos().y());
             scene()->addItem(sp);
@@ -45,7 +49,7 @@ void Bullet::direction() {
         }
     }
 
-    setPos(x()+m_direct, y()-10);
+    setPos(x()+m_direct, y()-20);
     if(pos().y() + rect().height() < 0)
     {
         //remove bullet when out of scene
@@ -61,10 +65,10 @@ void Bullet::setDirection(const int &direction)
 
 Bullet::~Bullet()
 {
-//    if(m_timer)
-//    {
-//        m_timer->stop();
-//        delete m_timer;
-//        m_timer = nullptr;
-//    }
+    //    if(m_timer)
+    //    {
+    //        m_timer->stop();
+    //        delete m_timer;
+    //        m_timer = nullptr;
+    //    }
 }

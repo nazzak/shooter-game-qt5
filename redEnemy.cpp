@@ -18,7 +18,7 @@ RedEnemy::RedEnemy(QGraphicsItem *parent):
     m_timerEnemy{new QTimer}
 {
 
-    setPixmap(QPixmap(":/image/48.png"));
+    setPixmap(QPixmap(":/image/logo512.png"));
     setPixmap(pixmap().scaled(QSize(50,50)));
     setSpeed();
 

@@ -4,6 +4,7 @@
 #include "QDebug"
 #include "bullet.h"
 #include "game.h"
+#include "redEnemy.h"
 
 extern Game * game;
 Player *Player::s_instance = 0;
@@ -16,6 +17,9 @@ Player::Player() :
 
     m_soundFire = new QMediaPlayer;
     m_soundFire->setMedia(QUrl("qrc:/sound/fire.mp3"));
+
+    m_destroyedEnemy =  new QMediaPlayer();
+    m_destroyedEnemy->setMedia(QUrl("qrc:/sound/1023.mp3"));
 }
 
 Player::~Player()
@@ -75,9 +79,17 @@ void Player::keyPressEvent(QKeyEvent *event)
             game->m_bulletStatus->decrease(1);
 
             //create bullet
-            Bullet * ma_fleche = new Bullet;
-            ma_fleche->setPos(x()+45,y());
-            scene()->addItem(ma_fleche);
+            Bullet * bullet = new Bullet;
+            connect(bullet, &Bullet::notifyCollision, this, [this](){
+                if(m_destroyedEnemy->state() == QMediaPlayer::PlayingState)
+                {
+                    m_destroyedEnemy->setPosition(0);
+                }
+                else
+                    m_destroyedEnemy->play();
+            });
+            bullet->setPos(x()+45,y());
+            scene()->addItem(bullet);
 
             //play sound
             if(m_soundFire->state() == QMediaPlayer::PlayingState)
@@ -87,7 +99,7 @@ void Player::keyPressEvent(QKeyEvent *event)
             else
                 m_soundFire->play();
 
-            //qDebug() << "detection : espace bar";
+            qDebug() << "detection : espace bar";
         }
         else {
             qDebug() << "Reload...";

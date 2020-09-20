@@ -47,6 +47,7 @@ Game::Game() :
 
     // sound effect for destroyed enemy
     m_destroyedEnemy =  new QMediaPlayer();
+    m_destroyedEnemy->setMedia(QUrl("qrc:/sound/1023.mp3"));
 
     // Build an enemy every 1.1 second
     m_enemyTimer = new QTimer;
@@ -56,7 +57,7 @@ Game::Game() :
         connect(e, &Enemy::notifyCollision, [this](){
             m_health->decrease();
 
-            m_destroyedEnemy->setMedia(QUrl("qrc:/sound/1023.mp3"));
+
             m_destroyedEnemy->play();
         });
         m_scene->addItem(e);
