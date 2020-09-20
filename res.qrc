@@ -1,12 +1,16 @@
 <RCC>
     <qresource prefix="/music">
         <file>bg.mp3</file>
+        <file>videoplayback.m4a</file>
     </qresource>
     <qresource prefix="/image">
         <file>48.png</file>
         <file>qpixmap_sprite.png</file>
+        <file>Rambo.png</file>
+        <file>military_background.png</file>
     </qresource>
     <qresource prefix="/sound">
         <file>fire.mp3</file>
+        <file>1023.mp3</file>
     </qresource>
 </RCC>

@@ -2,7 +2,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QList>
-#include "enemy.h"
+#include "redEnemy.h"
 #include "game.h"
 #include "sprite.h"
 #include <typeinfo>

@@ -2,6 +2,7 @@
 #include <QGraphicsTextItem>
 #include <QFont>
 #include <QTimer>
+#include "FactoryEnemy.h"
 
 #include <QApplication>
 
@@ -19,9 +20,10 @@ Game::Game() :
     // Building the scene
     m_scene = new QGraphicsScene();
     setScene(m_scene);
+    setBackgroundBrush(QPixmap(":/image/military_background.png"));
 
-    setFixedSize(1000,1000); // set size window
-    m_scene->setSceneRect(0,0,1000,1000); // set the scene on the screen
+    setFixedSize(600,1000); // set size window
+    m_scene->setSceneRect(0,0,600,1000); // set the scene on the screen
     //disable scroll bar
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -32,7 +34,7 @@ Game::Game() :
     m_quit->setStyleSheet("QPushButton { background-color: yellow; }");
     m_scene->addWidget(m_quit);
 
-    QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
+    QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
 
     //Build the player
     m_player = Player::instance();
@@ -41,13 +43,24 @@ Game::Game() :
     // put the focus on the player (link the keyboard to it)
     m_player->setFlag(QGraphicsItem::ItemIsFocusable);
     m_player->setFocus();
+    m_player->setPos((m_scene->width()/2)-50, m_scene->height() - 100);
 
-
-    m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
+    // sound effect for destroyed enemy
+    m_destroyedEnemy =  new QMediaPlayer();
 
     // Build an enemy every 1.1 second
     m_enemyTimer = new QTimer;
-    QObject::connect(m_enemyTimer, &QTimer::timeout,m_player,&Player::buildEnemy);
+    QObject::connect(m_enemyTimer, &QTimer::timeout, [this](){
+        int random_number = rand() % 3;
+        Enemy * e = getEnemy(random_number); // if random == 0 => redEnemy
+        connect(e, &Enemy::notifyCollision, [this](){
+            m_health->decrease();
+
+            m_destroyedEnemy->setMedia(QUrl("qrc:/sound/1023.mp3"));
+            m_destroyedEnemy->play();
+        });
+        m_scene->addItem(e);
+    });
     m_enemyTimer->start(1100);
 
     //Build score
@@ -62,7 +75,7 @@ Game::Game() :
     m_scene->addItem(m_health);
 
     m_music = new QMediaPlayer;
-    m_music->setMedia(QUrl("qrc:/music/bg.mp3"));
+    m_music->setMedia(QUrl("qrc:/music/videoplayback.m4a"));
     m_music->play();
 
 }
@@ -96,11 +109,21 @@ Game::~Game()
         delete m_scene;
         m_scene = nullptr;
     }
+
+    //5
+    if(m_destroyedEnemy)
+    {
+        delete m_destroyedEnemy;
+        m_destroyedEnemy = nullptr;
+    }
 }
 
 void Game::stop()
 {
     m_scene->removeItem(m_player);
     m_player->deleteLater();
+
+    //stop building new enemies
+    m_enemyTimer->stop();
 
 }

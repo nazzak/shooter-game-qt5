@@ -16,7 +16,7 @@ BulletStatus::BulletStatus(const int &nb)
 
     setPlainText("Balles : " + QString::number(m_remaining));
     setPos(x(),y()+40);
-    setDefaultTextColor(Qt::black);
+    setDefaultTextColor(Qt::white);
     setFont(QFont("times",16));
 }
 
