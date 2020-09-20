@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QPushButton>
 #include <QMediaPlayer>
+#include "player.h"
 
 class Game: public QGraphicsView
 {
@@ -20,6 +21,8 @@ private:
     QGraphicsScene * m_scene;
     QPushButton *m_quit;
     QMediaPlayer * m_music;
+
+    Player * m_player;
 
 
 };
