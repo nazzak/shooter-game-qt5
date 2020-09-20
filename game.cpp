@@ -29,9 +29,10 @@ Game::Game() :
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // Create exit button thet lives with the scene
-    m_quit = new QPushButton("Quit");
-    m_quit->setGeometry(100,0,100,50);
-    m_quit->setStyleSheet("QPushButton { background-color: yellow; }");
+    m_quit = new QPushButton("Give Up");
+    m_quit->setGeometry(500,0,100,50);
+    m_quit->setStyleSheet("QPushButton { background-color: red; color: white; border: 5px solid black; border-radius: 999px;}");
+
     m_scene->addWidget(m_quit);
 
     QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
@@ -56,9 +57,12 @@ Game::Game() :
         Enemy * e = getEnemy(random_number); // if random == 0 => redEnemy
         connect(e, &Enemy::notifyCollision, [this](){
             m_health->decrease();
-
-
-            m_destroyedEnemy->play();
+            if(m_destroyedEnemy->state() == QMediaPlayer::PlayingState)
+            {
+                m_destroyedEnemy->setPosition(0);
+            }
+            else
+                m_destroyedEnemy->play();
         });
         m_scene->addItem(e);
     });

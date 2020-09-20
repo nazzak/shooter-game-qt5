@@ -45,7 +45,7 @@ void Health::decrease()
     else if (m_health == 0)
     {
         setPlainText(m_gameOverText);
-        setPos((scene()->width()/2 - 80), scene()->height()/2);
+        setPos((scene()->width()/2 - 110), scene()->height()/2);
         setDefaultTextColor(Qt::red);
         setFont(QFont("times",50));
         game->stop();

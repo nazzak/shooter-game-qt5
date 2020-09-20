@@ -24,7 +24,9 @@ private:
     Player();
     ~Player();
     QMediaPlayer * m_soundFire;
+    QMediaPlayer * m_soundShotgun;
     QMediaPlayer * m_destroyedEnemy;
+    QMediaPlayer * m_gunReload;
 
 };
 
