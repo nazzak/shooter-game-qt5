@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "redEnemy.h"
 #include "player.h"
 #include <QTimer>
 #include <QList>
@@ -13,7 +13,9 @@
 extern Game * game;
 
 
-Enemy::Enemy(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent)
+RedEnemy::RedEnemy(QGraphicsItem *parent):
+    Enemy(),
+    m_timerEnemy{new QTimer}
 {
     //random position
 
@@ -25,16 +27,12 @@ Enemy::Enemy(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent)
     int random_number = rand() % (static_cast<int>(game->scene()->width()-pixmap().width()));
     setPos(random_number, 0);
 
-
-    //connect timer to move
-    m_timerEnemy = new QTimer();
-
-    QObject::connect(m_timerEnemy, SIGNAL(timeout()), this, SLOT(move()));
+    QObject::connect(m_timerEnemy, &QTimer::timeout, this, &RedEnemy::move);
 
     m_timerEnemy->start(50);
 }
 
-Enemy::~Enemy()
+RedEnemy::~RedEnemy()
 {
     if(m_timerEnemy)
     {
@@ -44,7 +42,7 @@ Enemy::~Enemy()
     }
 }
 
-void Enemy::move()
+void RedEnemy::move()
 {
     //check collision with player
     QList<QGraphicsItem *> obj_collision = collidingItems();
@@ -54,7 +52,7 @@ void Enemy::move()
         if (typeid(*obj_collision[i]) == typeid(Player)) //check if type Player
         {
             qDebug() << "Alert";
-            game->m_health->decrease();
+            emit notifyCollision();
 
             Sprite * sp = new Sprite(x(),y());
             scene()->addItem(sp);
@@ -78,7 +76,7 @@ void Enemy::move()
     }
 }
 
-void Enemy::setSpeed(const int &_speed)
+void RedEnemy::setSpeed(const int &_speed)
 {
     m_speed = _speed;
 }

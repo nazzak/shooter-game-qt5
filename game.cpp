@@ -2,6 +2,7 @@
 #include <QGraphicsTextItem>
 #include <QFont>
 #include <QTimer>
+#include "FactoryEnemy.h"
 
 #include <QApplication>
 
@@ -32,7 +33,7 @@ Game::Game() :
     m_quit->setStyleSheet("QPushButton { background-color: yellow; }");
     m_scene->addWidget(m_quit);
 
-    QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit);
+    QObject::connect(m_quit, &QPushButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
 
     //Build the player
     m_player = Player::instance();
@@ -41,13 +42,17 @@ Game::Game() :
     // put the focus on the player (link the keyboard to it)
     m_player->setFlag(QGraphicsItem::ItemIsFocusable);
     m_player->setFocus();
-
-
     m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
 
     // Build an enemy every 1.1 second
     m_enemyTimer = new QTimer;
-    QObject::connect(m_enemyTimer, &QTimer::timeout,m_player,&Player::buildEnemy);
+    QObject::connect(m_enemyTimer, &QTimer::timeout, [this](){
+        Enemy * e = getEnemy(1);
+        connect(e, &Enemy::notifyCollision, [this](){
+            m_health->decrease();
+        });
+        m_scene->addItem(e);
+    });
     m_enemyTimer->start(1100);
 
     //Build score
@@ -102,5 +107,6 @@ void Game::stop()
 {
     m_scene->removeItem(m_player);
     m_player->deleteLater();
+    m_enemyTimer->stop();
 
 }

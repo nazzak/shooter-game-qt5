@@ -3,7 +3,6 @@
 #include <QKeyEvent>
 #include "QDebug"
 #include "bullet.h"
-#include "enemy.h"
 #include "game.h"
 
 extern Game * game;
@@ -128,15 +127,4 @@ void Player::keyPressEvent(QKeyEvent *event)
 
         }
     }
-}
-
-void Player::buildEnemy()
-{
-    Enemy * enemy = new Enemy;
-    int random_number = rand() % 3;
-    if (random_number == 0)
-    {
-        enemy->setSpeed(10);
-    }
-    scene()->addItem(enemy);
 }

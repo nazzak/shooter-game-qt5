@@ -4,25 +4,20 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QObject>
-#include <QTimer>
 
 class Enemy : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public :
-    Enemy(QGraphicsItem * parent=0);
-    ~Enemy();
-    void setSpeed(const int &);
-
-
-private:
-    QTimer *m_timerEnemy;
+    Enemy(QGraphicsItem * parent=0){};
+    virtual ~Enemy(){};
+    virtual void setSpeed(const int &) = 0;
 
 public slots:
-    void move();
+    virtual void move() = 0;
 
-private :
-    int m_speed;
+signals:
+    void notifyCollision();
 };
 
 #endif // ENEMY_H

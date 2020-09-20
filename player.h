@@ -25,11 +25,6 @@ private:
     ~Player();
     QMediaPlayer * m_soundFire;
 
-signals:
-
-public slots:
-    void buildEnemy();
-
 };
 
 #endif // PLAYER_H
