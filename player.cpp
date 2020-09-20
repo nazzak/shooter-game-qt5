@@ -12,7 +12,7 @@ Player::Player() :
     m_soundFire{nullptr}
 {
     m_soundFire = new QMediaPlayer;
-    m_soundFire->setMedia(QUrl("qrc:/son/tire.mp3"));
+    m_soundFire->setMedia(QUrl("qrc:/sound/fire.mp3"));
 }
 
 Player::~Player()

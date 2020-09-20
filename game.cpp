@@ -55,13 +55,16 @@ Game::Game() :
     QObject::connect(m_enemyTimer, &QTimer::timeout,m_player,&Player::buildEnemy);
     m_enemyTimer->start(1100);
 
-    //creer le score
+    //Build score
     m_score = new Score;
     m_scene->addItem(m_score);
 
-    //creer la quantité de fleches
+    //Build bullet status
     m_bulletStatus = new BulletStatus;
     m_scene->addItem(m_bulletStatus);
+
+    m_health = new Health(8);
+    m_scene->addItem(m_health);
 
 }
 

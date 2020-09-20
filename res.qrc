@@ -6,4 +6,7 @@
         <file>48.png</file>
         <file>qpixmap_sprite.png</file>
     </qresource>
+    <qresource prefix="/sound">
+        <file>fire.mp3</file>
+    </qresource>
 </RCC>

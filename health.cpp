@@ -37,11 +37,11 @@ void Health::decrease()
 
     if (m_health > 0)
     {
-        setPlainText("Vie : " + QString::number(m_health));
+        setPlainText("Health : " + QString::number(m_health));
     }
     else if (m_health == 0)
     {
-        setPlainText("Perdu");
+        setPlainText("YOU LOSE");
         setPos(scene()->width()/2, scene()->height()/2);
         setDefaultTextColor(Qt::red);
         setFont(QFont("times",50));
