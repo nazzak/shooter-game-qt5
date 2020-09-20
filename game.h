@@ -23,6 +23,7 @@ private:
     QMediaPlayer * m_music;
 
     Player * m_player;
+    QTimer * m_enemyTimer;
 
 
 };

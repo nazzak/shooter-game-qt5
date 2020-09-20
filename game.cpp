@@ -12,7 +12,8 @@ Game::Game() :
     m_scene{nullptr},
     m_quit{nullptr},
     m_music{nullptr},
-    m_player{nullptr}
+    m_player{nullptr},
+    m_enemyTimer{nullptr}
 
 {
     // Building the scene
@@ -49,6 +50,10 @@ Game::Game() :
     m_scene->setSceneRect(0,0,800,1000); // set the scene on the screen
     m_player->setPos((m_scene->width()/2)-50, m_scene->height() - m_player->rect().height());
 
+    // Build an enemy every second
+    m_enemyTimer = new QTimer;
+    QObject::connect(m_enemyTimer, &QTimer::timeout,m_player,&Player::buildEnemy);
+    m_enemyTimer->start(1000);
 
 }
 
